@@ -2,10 +2,12 @@
 
 1 CRIAR STACK CLOUDFORMATION CRIAÇÃO DO SERVIDOR COM AS ROLE NESCESSÁRIA 
 
+Nome Stack: >>codepipeline-cloudfornation-ec2.json<<
+
 COMANDO ### CLI ### 
 aws cloudformation create-stack --stack-name CreateEC2 --template-url https://weapp-mybucketinfra2525-5hrilfu9kl1l.s3.amazonaws.com/codepipeline-cloudfornation-ec2.json --parameters ParameterKey=InstanceCount,ParameterValue=1 ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyPairName,ParameterValue=linux_horas ParameterKey=OperatingSystem,ParameterValue=Linux ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0 ParameterKey=TagKey,ParameterValue=Name ParameterKey=TagValue,ParameterValue=CodePipeline --capabilities CAPABILITY_IAM --region us-east-1
 
-## ATENÇÃO! trocar:  ParameterValue= >linux_horas< e >https://horascloudformatio2020.s3.< 
+## ATENÇÃO! trocar:  ParameterValue= >KeyPairName< e >https://ENDEREÇOs3.< 
 
 -------------------- ------------------------------ ------------------------------------------------------
 
@@ -20,10 +22,10 @@ aws cloudformation create-stack --stack-name CreateEC2 --template-url https://we
 3 Criar via cloudformation 2 BUCKET S3 
 
 
----BUCKET INFRAESTRUTURA >>> bucket-infra-app.yml  <<<<<
+---BUCKET INFRAESTRUTURA >>> SERÁ CRIADO VIA CLOUDFORMATION
 
 COMANDO ### CLI ### :
-aws deploy push --application-name mywebapp --s3-location s3://stack-mybucketwepappflow-1ezn7nl68x9ox/mywebapp.zip --ignore-hidden-files 
+aws deploy push --application-name mywebapp --s3-location s3://stack/mywebapp.zip --ignore-hidden-files 
 
 
 --BUKET DO PIPELINE  >> bucket-pipeline.yml<< 
@@ -42,10 +44,10 @@ Colocar caminho Bucket Deploy: >> s3://stack-mybucketwepappflow-1ezn7nl68x9ox/my
 comando ### CLI ###
 aws deploy create-application --application-name mywebapp --region us-east-1
 
-      exemplo cminho:s3://stack-mybucketwepappflow-1ezn7nl68x9ox/mywebapp.zip
+      exemplo cminho:s3://stack-mybucketwepappS2544/mywebapp.zip
 
-a> codedeploy-webupgroUp  
-b> codedeploy-webUp
+a > codedeploy-webupgroUp  
+b > codedeploy-webUp
 
 ATENÇAO:: Subir versão 2 da aplicação no buket s3 V2 >> mywebapp.zip
 -------------------- -------------------------------- --------------------------------------------------
