@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: create IAM roles for S3 - Full 
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: MyBucket
+    Description: "Criacao de Bucket."
+
+Resources:
+  MyBucketwepappflow:
+    Type: "AWS::S3::Bucket"
+    Properties: {}
+
+Outputs:
+  MyBucketwepappflow:
+    Description: Criacao Bucket wepapp
+    Value: !GetAtt 'MyBucketwepappflow.Arn'
+    Export:
+      Name: !Sub ${EnvironmentName}:MyBucketwepappflow
+

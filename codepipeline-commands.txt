@@ -1,0 +1,73 @@
+
+
+1 CRIAR STACK CLOUDFORMATION CRIAÇÃO DO SERVIDOR COM AS ROLE NESCESSÁRIA 
+
+COMANDO ### CLI ### 
+aws cloudformation create-stack --stack-name CreateEC2 --template-url https://weapp-mybucketinfra2525-5hrilfu9kl1l.s3.amazonaws.com/codepipeline-cloudfornation-ec2.json --parameters ParameterKey=InstanceCount,ParameterValue=1 ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyPairName,ParameterValue=linux_horas ParameterKey=OperatingSystem,ParameterValue=Linux ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0 ParameterKey=TagKey,ParameterValue=Name ParameterKey=TagValue,ParameterValue=CodePipeline --capabilities CAPABILITY_IAM --region us-east-1
+
+## ATENÇÃO! trocar:  ParameterValue= >linux_horas< e >https://horascloudformatio2020.s3.< 
+
+-------------------- ------------------------------ ------------------------------------------------------
+
+2 Acessar Servider Verificar o Deploy Agent e verificar se tem arquivo index.htlm 
+> sudo service codedeploy-agent status
+> cd /var/www/html/
+
+
+-------------------- ------------------------------ ------------------------------------------------------
+
+
+3 Criar via cloudformation 2 BUCKET S3 
+
+
+---BUCKET INFRAESTRUTURA >>> bucket-infra-app.yml  <<<<<
+
+COMANDO ### CLI ### :
+aws deploy push --application-name mywebapp --s3-location s3://stack-mybucketwepappflow-1ezn7nl68x9ox/mywebapp.zip --ignore-hidden-files 
+
+
+--BUKET DO PIPELINE  >> bucket-pipeline.yml<< 
+-- obs: precisa habilitar o versonamento --
+
+colocar o nome do Buket do Deploy: >> stack-mybucketwepappflow-1ezn7nl68x9ox << 
+Colocar caminho Bucket Deploy: >> s3://stack-mybucketwepappflow-1ezn7nl68x9ox/mywebapp.zip <<
+
+
+--------------------- -------------------------------- -------------------------------------------------
+
+4 CRIAÇÃO DO CODEDEPLOY 
+
+      a.criar um aplication na AWS para aplicação > mywebapp
+
+comando ### CLI ###
+aws deploy create-application --application-name mywebapp --region us-east-1
+
+      exemplo cminho:s3://stack-mybucketwepappflow-1ezn7nl68x9ox/mywebapp.zip
+
+a> codedeploy-webupgroUp  
+b> codedeploy-webUp
+
+ATENÇAO:: Subir versão 2 da aplicação no buket s3 V2 >> mywebapp.zip
+-------------------- -------------------------------- --------------------------------------------------
+    
+5 CRIAR CODEPIPELINE >>> SUBIR V2  
+
+  a.name>> WebUp-Workflow
+  b. opção> Bucket S3 2 buket 3 nome arquivo 
+  c.SEM BUILD >>  build em skip build stage 
+  d. opção: >> codedeploy << 
+
+
+--------------------- ------------------------- ------------------------------ -----------------------
+
+6 AUTOMATIZAR O PROCESSO VIA ## CLI ##
+
+
+COMANDO ## CLI ## OBS: Precisa está no diretório >> build-cli/mywebapp <<
+
+aws deploy push --application-name mywebapp --s3-location s3://stack-mybucketwepappflow-1ezn7nl68x9ox/mywebapp.zip --ignore-hidden-files 
+
+
+acessar SERVER-WEPAPP E  CONFERIR >>>>  index.html  <<<<
+
+cd /var/www/html/
