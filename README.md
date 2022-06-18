@@ -1,4 +1,4 @@
-# automação com AWS CodeDeploy e AWS CodePipeline 
+# CI/CD automação com AWS CodeDeploy e AWS CodePipeline 
 
 
 Mostrar um Lab com ambiente de CI/CD numa aplicaçaão Web.
