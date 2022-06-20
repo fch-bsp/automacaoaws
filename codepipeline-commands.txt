@@ -1,11 +1,12 @@
 
 
 1 CRIAR STACK CLOUDFORMATION CRIAÇÃO DO SERVIDOR COM AS ROLE NESCESSÁRIA 
+SERÁ FEITO CRIAÇÃO DA EC2 COM ROLE NESCESSÁRIAS COM STACK NUM BUCKET S3 E SERÁ EXECUTADO VIA CLI 
 
 Nome Stack: >>codepipeline-cloudfornation-ec2.json<<
 
 COMANDO ### CLI ### 
-aws cloudformation create-stack --stack-name CreateEC2 --template-url https://weapp-mybucketinfra-ec2.json --parameters ParameterKey=InstanceCount,ParameterValue=1 ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyPairName,ParameterValue=<INFORMA O KEY-NAME> ParameterKey=OperatingSystem,ParameterValue=Linux ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0 ParameterKey=TagKey,ParameterValue=Name ParameterKey=TagValue,ParameterValue=CodePipeline --capabilities CAPABILITY_IAM --region us-east-1
+aws cloudformation create-stack --stack-name CreateEC2 --template-url https://stack-infra-mybucketinfra2525-pgp5zbux6r9v.s3.amazonaws.com/codepipeline-cloudfornation-ec2.json --parameters ParameterKey=InstanceCount,ParameterValue=1 ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyPairName,ParameterValue=linux_horas ParameterKey=OperatingSystem,ParameterValue=Linux ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0 ParameterKey=TagKey,ParameterValue=Name ParameterKey=TagValue,ParameterValue=CodePipeline --capabilities CAPABILITY_IAM --region us-east-1
 
 ## ATENÇÃO! trocar:  ParameterValue= >KeyPairName<  e  >https://INFORMA-ENDEREÇOs3.< 
 
@@ -31,8 +32,8 @@ aws deploy push --application-name mywebapp --s3-location s3://stack/mywebapp.zi
 --BUKET DO PIPELINE  >> bucket-pipeline.yml<< 
 -- obs: precisa habilitar o versonamento --
 
-colocar o nome do Buket do Deploy: >> stack-mybucketwepappflow-1ezn7nl68x9ox << 
-Colocar caminho Bucket Deploy: >> s3://stack-mybucketwepappflow-1ezn7nl68x9ox/mywebapp.zip <<
+colocar o nome do Buket do Deploy: >> stack-flow-mybucketwepappflow-1lhqrjr7yswnu << 
+Colocar caminho Bucket Deploy: >> s3://stack-flow-mybucketwepappflow-1lhqrjr7yswnu/mywebapp.zip <<
 
 
 --------------------- -------------------------------- -------------------------------------------------
@@ -44,7 +45,7 @@ Colocar caminho Bucket Deploy: >> s3://stack-mybucketwepappflow-1ezn7nl68x9ox/my
 comando ### CLI ###
 aws deploy create-application --application-name mywebapp --region us-east-1
 
-      exemplo cminho:s3://stack-mybucketwepapp/mywebapp.zip
+      exemplo cminho:s3://stack-mybucketwepappS2544/mywebapp.zip
 
 a > codedeploy-webupgroUp  
 b > codedeploy-webUp
@@ -73,3 +74,25 @@ aws deploy push --application-name mywebapp --s3-location s3://stack-mybucketwep
 acessar SERVER-WEPAPP E  CONFERIR >>>>  index.html  <<<<
 
 cd /var/www/html/
+sudo service codedeploy-agent status
+
+
+1 criar stack da infra 
+2 importa a satck ec2 para a stack infra
+3 criar stack flow
+4 acessar servidor web e validar de instalou o codedeploy-agent 
+5 criar stack onde será recebido flow da aplicação e adicionar Bucket Versioning
+6 subir 1 arquivo com aplicação mywebapp_1.0 >>> versão 1 <<<
+7 criar via CLI cloddeploy com name > mywebapp
+8 acessar codedeploy / Create deployment group -name>> WebupgroUp 
+9 Create deployment > s3://stack-flow-mybucketwepappflow-1lhqrjr7yswnu/mywebapp.zip 
+10 atualizar o bucket com versão v 2 para podermos criar codepipeline 
+11 criação do codepipeline - esse processo será feito via console -
+   a.name>> WebUp-Workflow
+   c. escolha opção amazon S3 >>APONTE BUCKETS3 >> INFORMA EXTESSÃO .ZIP 
+   c.SEM BUILD >>  build em skip build stage 
+   d. opção: >> codedeploy >> mywebapp>> WebupgroUp
+12 validar operação subindo outro arquivo.zip para bucket da aplicação com isso o processo tem que ocorrer automztizado 
+   ou seja após upload o awspipeline junto com cloudwatch indentifica que tem outro arquivo atráves do versonamento avisa 
+   codedeploy e atualizar a versão na Ec2 onde esta aplicação, simples assim!!
+   

@@ -1,0 +1,44 @@
+# Junção das duas Stack dos dois Bucket AWS
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: create IAM roles for S3 - Infra 
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: MyBucket-Infra
+    Description: "Criacao de Bucket Infra."
+
+Resources:
+  MyBucketinfra2525:
+    Type: "AWS::S3::Bucket"
+    Properties: {}
+
+Outputs:
+  MyBucketinfra2525:
+    Description: Criacao Bucket 
+    Value: !GetAtt 'MyBucketinfra2525.Arn'
+    Export:
+      Name: !Sub ${EnvironmentName}:MyBucketinfra2525
+      
+--- 
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: create IAM roles for S3 - Flow
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: MyBucket
+    Description: "Criacao de Bucket Flow."
+
+Resources:
+  MyBucketwepappflow:
+    Type: "AWS::S3::Bucket"
+    Properties: {}
+
+Outputs:
+  MyBucketwepappflow:
+    Description: Criacao Bucket wepapp
+    Value: !GetAtt 'MyBucketwepappflow.Arn'
+    Export:
+      Name: !Sub ${EnvironmentName}:MyBucketwepappflow
+
